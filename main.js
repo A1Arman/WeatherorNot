@@ -20,6 +20,7 @@ function displayCurrentResults(responseJson) {
             <p>High: ${responseJson.main.temp_max} °F</p>
             <p>Low: ${responseJson.main.temp_min} °F</p>
             <p>Weather Condition: ${responseJson.weather[0].main}</p>
+            <button type="button" class="see-event">Check for Events</button>
         </section>`
         )
 };
@@ -108,6 +109,7 @@ function displayEventResults(event) {
             <h3>${event.dates.start.localDate} : ${event.dates.start.localTime}</h3>
             <h3><a href='${event.url}'>${event.name}</a></h3>
             <p>${event._embedded.venues[0].name}</p>
+            <button type='button'>Add to Calendar</button>
         </section>
     `);
 };
@@ -172,7 +174,7 @@ function watchForm() {
 }
 
 function watchEventClick(city) {
-    $('.projected-weather').on('click', '.see-event', event => {
+    $('.projected-weather, .current').on('click', '.see-event', event => {
         showEvents();
         getEvents(city);
     });
