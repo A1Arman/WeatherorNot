@@ -55,9 +55,9 @@ function displayForecastResults(responseJson) {
     $('.projected-weather').append(`<h2>5 Day Forecast</h2>`)
     for (let i = 0; i < responseJson.cnt; i+=8) {
         $('.projected-weather').append(
-        `<section>
+        `<section class='projected-weather-results'>
             <h3>${responseJson.list[i].dt_txt}</h3>
-            <h4>${responseJson.list[i].main.temp} °F</h4>
+            <h4>Temperature: ${responseJson.list[i].main.temp} °F</h4>
             <p>Weather Condition: ${responseJson.list[i].weather[0].main}</p>         
             <button type="button" class="see-event">Check for Events</button>
         </section>`
@@ -90,8 +90,10 @@ function getForecastCity(query) {
     });
 };
 
-function hideWeather() {
+function removeWeather() {
+        $('.current').empty();
         $('.current').hide();
+        $('.projected-weather').empty();
         $('.projected-weather').hide();
 };
 
@@ -101,7 +103,7 @@ function showWeather() {
 };
 
 function displayEventResults(event) {
-        $('.events').append(`
+    $('.events').append(`
         <section>
             <h3>${event.dates.start.localDate} : ${event.dates.start.localTime}</h3>
             <h3><a href='${event.url}'>${event.name}</a></h3>
@@ -110,18 +112,27 @@ function displayEventResults(event) {
     `);
 };
 
+function hideEvents() {
+    $('.events').empty();
+    $('.events').hide();
+}
+
+function showEvents() {
+    $('.events').show();
+}
 
 function getEvents(query) {
     let apiKey = 'mLp0QAqdVGdXZxVAru5MAGOfSKlzsIgS';
     const params = {
         apikey: apiKey,
         city: query,
-        sort: 'date,asc'
+        sort: 'date,asc',
+        size: '15'
     };
     let queryString = formatQueryParams(params)
     let url = eventSearch + '?' + queryString;
     const now = new Date();
-
+    console.log(url);
     fetch(url)
         .then(response => {
             if (response.ok) {
@@ -131,33 +142,38 @@ function getEvents(query) {
         })
         .then(responseJson => {
             for (let i = 0; i < responseJson._embedded.events.length; i++) {
-                const event = responseJson._embedded.events[i];
-                const date = new Date(event.dates.start.dateTime);
+                let event = responseJson._embedded.events[i];
+                let date = new Date(event.dates.start.dateTime);
+                console.log(event);
                 if (date > now) {
-                    hideWeather();
+                    removeWeather();
                     displayEventResults(event);
                 }
             }
+            url = '';
         })
         .catch(err => {
         $('#js-error-message-events').text(`Something went wrong: ${err.message}`);
     });
 };
 
+
 function watchForm() {
   $('form').submit(event => {
     event.preventDefault();
     const city = $('#js-city').val();
+    removeWeather();
+    showWeather();
     getCurrentCity(city);
     getForecastCity(city);
-    showWeather();
     watchEventClick(city);
+    hideEvents();
   });
 }
 
 function watchEventClick(city) {
     $('.projected-weather').on('click', '.see-event', event => {
-        console.log('hi');
+        showEvents();
         getEvents(city);
     });
 }
