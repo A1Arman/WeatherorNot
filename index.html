@@ -11,8 +11,8 @@
     <header>
         <nav>
             <ul>
-                <li><a>Current Weather</a></li>
-                <li><a>Forecast</a></li>
+                <li><a>Weather</a></li>
+                <li><a>Events</a></li>
                 <li><a>Create an Event</a></li>
             </ul>
         </nav>
@@ -25,13 +25,15 @@
                 <input type="text" name="search-term" id="js-city" placeholder="Milwaukee" required>
                 <input type="submit" value="Search!">
             </form>
+        </section>
+        <section class="current">
             <p id="js-error-message"></p>
         </section>
-        <section class="current-weather">
-
-        </section>
         <section class="projected-weather">
-
+            <p id="js-error-message-forecast"></p>
+        </section>
+        <section class="events">
+            <p id="js-error-message-event"></p>
         </section>
     </main>
     <footer>
