@@ -112,11 +112,9 @@ function showEvent() {
 
 function displayEventResults(event) {
     $('.current-event').append(`
-            <h2>Today's Event</h2>
             <h3>${event.dates.start.localDate} : ${event.dates.start.localTime}</h3>
             <h3><a href='${event.url}'>${event.name}</a></h3>
             <p>${event._embedded.venues[0].name}</p>
-            <button type='button' class='see-events'>More Events</button>
     `);
 };
 
@@ -127,12 +125,12 @@ function getEvents(query) {
         apikey: apiKey,
         city: query,
         sort: 'date,asc',
-        size: '2'
+        size: '5'
     };
     let queryString = formatQueryParams(params)
     let url = eventSearch + '?' + queryString;
     const now = new Date();
-    console.log(now);
+
     fetch(url)
         .then(response => {
             if (response.ok) {
@@ -141,17 +139,16 @@ function getEvents(query) {
             throw new Error(response.statusText);
         })
         .then(responseJson => {
+            console.log(responseJson);
+            $('.current-event').append(`
+                <h2>Events happening soon</h2>
+                <button type='button' class='see-events'>All Events</button>
+            `);
             for (let i = 1; i < responseJson._embedded.events.length; i++) {
                 let event = responseJson._embedded.events[i];
                 let date = new Date(event.dates.start.dateTime);
                 if (date >= now) {
                     displayEventResults(event);
-                }
-                else {
-                    $('.current-event').append(`
-                    <h3>No Events For Today</h3>
-                    <button type='button' class='see-events'>See More Events</button>
-                    `) 
                 }
                 url = '';
             }
@@ -162,7 +159,7 @@ function getEvents(query) {
 };
 
 function hideAllEvents() {
-    $('.all-events').empty();
+    $('.all-event-results').remove();
     $('.all-events').hide();
 }
 
@@ -172,9 +169,11 @@ function showAllEvents() {
 
 function displayAllEventResults(event) {
     $('.all-events').append(`
-            <h3>${event.dates.start.localDate} : ${event.dates.start.localTime}</h3>
-            <h3><a href='${event.url}'>${event.name}</a></h3>
-            <p>${event._embedded.venues[0].name}</p>
+            <section class='all-event-results'>
+                <h3>${event.dates.start.localDate} : ${event.dates.start.localTime}</h3>
+                <h3><a href='${event.url}'>${event.name}</a></h3>
+                <p>${event._embedded.venues[0].name}</p>
+            </section>
     `);
 };
 
@@ -189,7 +188,6 @@ function getAllEvents(query) {
     let queryString = formatQueryParams(params)
     let url = eventSearch + '?' + queryString;
     const now = new Date();
-    console.log(url);
     fetch(url)
         .then(response => {
             if (response.ok) {
@@ -198,13 +196,9 @@ function getAllEvents(query) {
             throw new Error(response.statusText);
         })
         .then(responseJson => {
-            for (let i = 0; i < responseJson._embedded.events.length; i++) {
+            for (let i = 2; i < responseJson._embedded.events.length; i++) {
                 let event = responseJson._embedded.events[i];
-                let date = new Date(event.dates.start.dateTime);
-                console.log(event);
-                if (date > now) {
-                    displayAllEventResults(event);
-                }
+                displayAllEventResults(event);
             }
             url = '';
         })
