@@ -13,14 +13,12 @@ function formatQueryParams(params) {
 function displayCurrentResults(responseJson) {
     $('#js-error-message').empty();
     $('.current').append(
-        `<section class="current">
-            <h2>Current Weather</h2>
+        `<h2>Current Weather</h2>
             <h3>${responseJson.name}</h3>
             <h4>${responseJson.main.temp} °F</h4>
             <p>High: ${responseJson.main.temp_max} °F</p>
             <p>Low: ${responseJson.main.temp_min} °F</p>
-            <p>Weather Condition: ${responseJson.weather[0].main}</p>
-        </section>`
+            <p>Weather Condition: ${responseJson.weather[0].main}</p>`
         )
 };
 

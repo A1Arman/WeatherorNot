@@ -1,26 +1,53 @@
 * {
     box-sizing: border-box;
-  }
-  
-  body {
+    color: rgb(241, 245, 250);
+}
+
+h1 {
+    color: #66FCF1;
+    font-size: 2.5em;
+}
+
+body {
+    margin: 5% 5%;
+    background-color: #0B0C10;
     font-family: "Open Sans",
     sans-serif; 
     font-size: 20px;
-    color: #444;
     text-align: center;
-  }
-  
-  footer {
+}
+
+nav {
+      display: none;
+}
+
+ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+}
+
+footer {
     padding: 1% 0;
-    background-color: #aaa;
-  }
+}
   
-  section {
+section {
+    border-radius: 5%;
     padding: 6% 0;
-    background-color: #bbb;
-  }
+    margin: 2.5% 5%;
+    background-color: #45A29E;
+}
+
+button, input#search-city {
+    background-color: rgb(6, 129, 13);
+    border-radius: 10.5%;
+}
+
+input#js-city {
+    border-radius: 7.5%;
+    color: black;
+}
   
-  section:nth-child(even) {
-    background-color: #ddd;
-  }
-  
+@media screen and (min-width: 500px) {
+
+}

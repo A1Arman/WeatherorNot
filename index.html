@@ -9,6 +9,13 @@
 </head>
 <body>
     <header>
+            <nav class='hide-nav'>
+                <ul class="links">
+                    <li><a>Current Weather</a></li>
+                    <li><a>Events</a></li>
+                    <li><a>Forecast</a></li>
+                </ul>
+            </nav>
             <h1 id="title">WeatherorNot</h1>
             <h2>See Weather and Events in Your City!</h2>
     </header>
@@ -17,7 +24,7 @@
             <form>
                 <label>Enter City Name</label><br>
                 <input type="text" name="search-term" id="js-city" placeholder="Milwaukee" required>
-                <input type="submit" value="Search!">
+                <input type="submit" id="search-city" value="Search!">
             </form>
         </section>
             <section class="current">
@@ -34,7 +41,7 @@
         </section>
     </main>
     <footer>
-
+        <p>Designed and Created by: <a href="http://www.armanbhimani.com">Arman Bhimani</a></p>
     </footer>
     <script
   src="https://code.jquery.com/jquery-3.3.1.js"
