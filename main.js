@@ -122,7 +122,7 @@ function getEvents(query) {
     const params = {
         apikey: apiKey,
         city: query,
-        sort: 'date,asc',
+        // sort: 'date,asc',
         size: '5'
     };
     let queryString = formatQueryParams(params)
@@ -139,7 +139,7 @@ function getEvents(query) {
         .then(responseJson => {
             console.log(responseJson);
             $('.current-event').append(`
-                <h2>Events happening soon</h2>
+                <h2>Popular Events</h2>
                 <button type='button' class='see-events'>All Events</button>
             `);
             for (let i = 1; i < responseJson._embedded.events.length; i++) {
@@ -181,7 +181,7 @@ function getAllEvents(query) {
         apikey: apiKey,
         city: query,
         sort: 'date,asc',
-        size: '20'
+        size: '25'
     };
     let queryString = formatQueryParams(params)
     let url = eventSearch + '?' + queryString;
@@ -194,7 +194,7 @@ function getAllEvents(query) {
             throw new Error(response.statusText);
         })
         .then(responseJson => {
-            for (let i = 2; i < responseJson._embedded.events.length; i++) {
+            for (let i = 5; i < responseJson._embedded.events.length; i++) {
                 let event = responseJson._embedded.events[i];
                 displayAllEventResults(event);
             }
