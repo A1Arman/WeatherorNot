@@ -9,7 +9,7 @@
 }
 
 h1 {
-    color: rgb(202, 147, 13);
+    color: rgb(250, 206, 12);
     font-size: 2.5em;
     border-bottom: 0.25px solid whitesmoke;
 }
@@ -51,11 +51,15 @@ section {
 button, input#search-city {
     color: white;
     border-radius: 10.5%;
+    border: 1.75px solid whitesmoke;
 }
 
 input#js-city {
     border-radius: 7.5%;
     color: whitesmoke;
+    width: 40%;
+    margin-top: 2.5%;
+    border: 1.75px solid whitesmoke;
 }
   
 @media screen and (min-width: 500px) {
