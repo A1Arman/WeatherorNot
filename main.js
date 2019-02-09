@@ -11,14 +11,17 @@ function formatQueryParams(params) {
 }
 
 function displayCurrentResults(responseJson) {
+    console.log(responseJson);
     $('#js-error-message').empty();
-    $('.current').append(
-        `<h2>Current Weather</h2>
+    $('#current').append(
+        `<section class="current-temp">   
+            <h2>Current Weather</h2>
             <h3>${responseJson.name}</h3>
             <h4>${responseJson.main.temp} °F</h4>
             <p>High: ${responseJson.main.temp_max} °F</p>
             <p>Low: ${responseJson.main.temp_min} °F</p>
-            <p>Weather Condition: ${responseJson.weather[0].main}</p>`
+            <p>Weather Condition: ${responseJson.weather[0].main}</p>
+        </section>`
         )
 };
 
@@ -32,7 +35,6 @@ function getCurrentCity(query) {
     let queryString = formatQueryParams(params)
     let url = searchURL + '?' + queryString;
 
-    console.log('I am running');
 
     fetch(url)
         .then(response => {
@@ -41,25 +43,29 @@ function getCurrentCity(query) {
             }
             throw new Error(response.statusText);
         })
-        .then(responseJson => displayCurrentResults(responseJson))
+        .then(responseJson => {
+            displayCurrentResults(responseJson);
+        })
         .catch(err => {
         $('#js-error-message').text(`Something went wrong: ${err.message}`);
     });
 };
 
 function displayForecastResults(responseJson) {
-    console.log(responseJson);
     $('#js-error-message').empty();
-    $('.projected-weather').append(`<h2>5 Day Forecast</h2>`)
+    $('#projected-weather').append(`<h2>5 Day Forecast</h2>`);
+    let projectedResults = [];
+    //For loop iterates response of the 5 day / 3 hour forecast to display only 5 days
     for (let i = 0; i < responseJson.cnt; i+=8) {
-        $('.projected-weather').append(
+        projectedResults.push(
         `<section class='projected-weather-results'>
             <h3>${responseJson.list[i].dt_txt}</h3>
             <h4>Temperature: ${responseJson.list[i].main.temp} °F</h4>
             <p>Weather Condition: ${responseJson.list[i].weather[0].main}</p>         
         </section>`
-        )
-    }
+        );
+    };
+    $('#projected-weather').append(projectedResults.join(""));
 };
 
 function getForecastCity(query) {
@@ -88,46 +94,57 @@ function getForecastCity(query) {
 };
 
 function removeWeather() {
-        $('.current').empty();
-        $('.current').hide();
-        $('.projected-weather').empty();
-        $('.projected-weather').hide();
+        $('#current').empty();
+        $('#current').hide();
+        $('#projected-weather').empty();
+        $('#projected-weather').hide();
 };
 
 function showWeather() {
-    $('.current').show();
-    $('.projected-weather').show();
+    $('#current').show();
+    $('#projected-weather').show();
 };
 
 function hideEvent() {
-    $('.current-event').empty();
-    $('.current-event').hide();
+    $('#current-event').empty();
+    $('#current-event').hide();
 }
 
 function showEvent() {
-    $('.current-event').show();
+    $('#current-event').show();
 }
 
 function displayEventResults(event) {
-    $('.current-event').append(`
+    $('#current-event').append(`
+        <section class="current-event-section">
             <h3>${event.dates.start.localDate} : ${event.dates.start.localTime}</h3>
             <h3><a href='${event.url}'>${event.name}</a></h3>
             <p>${event._embedded.venues[0].name}</p>
+        </section>
     `);
 };
 
 
+function displayNoEventResults(event) {
+   $('#current-event').append(`
+        <section class="current-event-section">
+            <h3>${event.name}</h3>
+            <h4>Sorry this event has passed</h4>
+        </section>
+    `)
+}
+
 function getEvents(query) {
+    const now = new Date();
     let apiKey = 'mLp0QAqdVGdXZxVAru5MAGOfSKlzsIgS';
     const params = {
         apikey: apiKey,
         city: query,
-        // sort: 'date,asc',
-        size: '5'
+        sort: 'date,asc',
+        size: '4'
     };
     let queryString = formatQueryParams(params)
     let url = eventSearch + '?' + queryString;
-    const now = new Date();
 
     fetch(url)
         .then(response => {
@@ -137,16 +154,18 @@ function getEvents(query) {
             throw new Error(response.statusText);
         })
         .then(responseJson => {
-            console.log(responseJson);
-            $('.current-event').append(`
-                <h2>Popular Events</h2>
+            $('#current-event').append(`
+                <h2>Events Happening Soon</h2>
                 <button type='button' class='see-events'>All Events</button>
-            `);
+                `);
             for (let i = 1; i < responseJson._embedded.events.length; i++) {
                 let event = responseJson._embedded.events[i];
                 let date = new Date(event.dates.start.dateTime);
                 if (date >= now) {
                     displayEventResults(event);
+                }
+                else {
+                    displayNoEventResults(event);
                 }
                 url = '';
             }
@@ -157,16 +176,16 @@ function getEvents(query) {
 };
 
 function hideAllEvents() {
-    $('.all-event-results').remove();
-    $('.all-events').hide();
+    $('#all-event-results').remove();
+    $('#all-events').hide();
 }
 
 function showAllEvents() {
-    $('.all-events').show();
+    $('#all-events').show();
 }
 
 function displayAllEventResults(event) {
-    $('.all-events').append(`
+    $('#all-events').append(`
             <section class='all-event-results'>
                 <h3>${event.dates.start.localDate} : ${event.dates.start.localTime}</h3>
                 <h3><a href='${event.url}'>${event.name}</a></h3>
@@ -174,7 +193,6 @@ function displayAllEventResults(event) {
             </section>
     `);
 };
-
 function getAllEvents(query) {
     let apiKey = 'mLp0QAqdVGdXZxVAru5MAGOfSKlzsIgS';
     const params = {
@@ -186,6 +204,7 @@ function getAllEvents(query) {
     let queryString = formatQueryParams(params)
     let url = eventSearch + '?' + queryString;
     const now = new Date();
+    let allEvents = [];
     fetch(url)
         .then(response => {
             if (response.ok) {
@@ -196,14 +215,28 @@ function getAllEvents(query) {
         .then(responseJson => {
             for (let i = 5; i < responseJson._embedded.events.length; i++) {
                 let event = responseJson._embedded.events[i];
-                displayAllEventResults(event);
+                let date = new Date(event.dates.start.dateTime);
+                if(date >= now) {
+                    allEvents.push(`
+                    <section class='all-event-results'>
+                        <h3>${event.dates.start.localDate} : ${event.dates.start.localTime}</h3>
+                        <h3><a href='${event.url}'>${event.name}</a></h3>
+                        <p>${event._embedded.venues[0].name}</p>
+                    </section>
+                    `);
+                }
             }
+            $('#all-events').append(allEvents.join(""));
             url = '';
         })
         .catch(err => {
         $('#js-error-message-all-events').text(`Something went wrong: ${err.message}`);
     });
 };
+
+function showHome() {
+    $('#current, #current-event, #projected-weather').removeClass('hide');
+}
 
 
 function watchForm() {
@@ -219,11 +252,12 @@ function watchForm() {
     getCurrentCity(city);
     getForecastCity(city);
     watchEventClick(city);
+    showHome();
   });
 }
 
 function watchEventClick(city) {
-    $('.current-event').on('click', '.see-events', event => {
+    $('#current-event').on('click', '.see-events', event => {
         hideEvent();
         removeWeather();
         showAllEvents();

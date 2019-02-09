@@ -1,23 +1,28 @@
 * {
     box-sizing: border-box;
-    color: rgb(241, 245, 250);
+    color: rgb(250, 243, 243);
+    background: url(imgs/cloudy.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 h1 {
-    color: #66FCF1;
+    color: rgb(202, 147, 13);
     font-size: 2.5em;
+    border-bottom: 0.25px solid whitesmoke;
 }
 
 body {
     margin: 5% 5%;
-    background-color: #0B0C10;
     font-family: "Open Sans",
     sans-serif; 
     font-size: 20px;
     text-align: center;
 }
 
-nav {
+.hide {
       display: none;
 }
 
@@ -32,20 +37,25 @@ footer {
 }
   
 section {
-    border-radius: 5%;
+    border-radius: 2.5%;
     padding: 6% 0;
     margin: 2.5% 5%;
-    background-color: #45A29E;
+}
+
+.projected-weather-results, .current-event-section, 
+.current-temp, .all-event-results {
+    border: 0.5px solid whitesmoke;
+    box-shadow: 0.75px 0.75px;
 }
 
 button, input#search-city {
-    background-color: rgb(6, 129, 13);
+    color: white;
     border-radius: 10.5%;
 }
 
 input#js-city {
     border-radius: 7.5%;
-    color: black;
+    color: whitesmoke;
 }
   
 @media screen and (min-width: 500px) {
