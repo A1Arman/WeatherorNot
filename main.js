@@ -51,6 +51,7 @@ function getCurrentCity(query) {
 };
 
 function displayForecastResults(responseJson) {
+    console.log(responseJson);
     $('#js-error-message').empty();
     $('#projected-weather').append(`<h2>5 Day Forecast</h2>`);
     let projectedResults = [];

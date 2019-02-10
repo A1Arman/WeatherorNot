@@ -65,12 +65,14 @@ button, input#search-city {
 
 button:hover, #search-city:hover {
     cursor: pointer;
+    height: 25px;
+    color: #F9BC02;
 }
 input::placeholder {
     color: whitesmoke;
 }
 
-input#js-city {
+#js-city {
     border-radius: 7.5%;
     color: whitesmoke;
     width: 40%;
