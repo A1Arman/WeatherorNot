@@ -11,7 +11,6 @@ function formatQueryParams(params) {
 }
 
 function displayCurrentResults(responseJson) {
-    console.log(responseJson);
     $('#js-error-message').empty();
     $('#current').append(
         `<section class="current-temp">   
@@ -58,7 +57,7 @@ function displayForecastResults(responseJson) {
     //For loop iterates response of the 5 day / 3 hour forecast to display only 5 days
     for (let i = 0; i < responseJson.cnt; i+=8) {
         projectedResults.push(
-        `<section class='projected-weather-results'>
+        `<section class="projected-weather-results">
             <h3>${responseJson.list[i].dt_txt}</h3>
             <h4>Temperature: ${responseJson.list[i].main.temp} °F</h4>
             <p>Weather Condition: ${responseJson.list[i].weather[0].main}</p>         
@@ -134,6 +133,13 @@ function displayNoEventResults(event) {
     `)
 }
 
+function eventTitle() {
+    $('#current-event').append(`
+    <h2>Events Happening Soon</h2>
+    <button type="button" class="see-events">All Events</button>
+    `);
+}
+
 function getEvents(query) {
     const now = new Date();
     let apiKey = 'mLp0QAqdVGdXZxVAru5MAGOfSKlzsIgS';
@@ -154,10 +160,7 @@ function getEvents(query) {
             throw new Error(response.statusText);
         })
         .then(responseJson => {
-            $('#current-event').append(`
-                <h2>Events Happening Soon</h2>
-                <button type='button' class='see-events'>All Events</button>
-                `);
+            eventTitle();
             for (let i = 1; i < responseJson._embedded.events.length; i++) {
                 let event = responseJson._embedded.events[i];
                 let date = new Date(event.dates.start.dateTime);
@@ -186,7 +189,7 @@ function showAllEvents() {
 
 function displayAllEventResults(event) {
     $('#all-events').append(`
-            <section class='all-event-results'>
+            <section class='all-event-results">
                 <h3>${event.dates.start.localDate} : ${event.dates.start.localTime}</h3>
                 <h3><a href='${event.url}'>${event.name}</a></h3>
                 <p>${event._embedded.venues[0].name}</p>
@@ -218,7 +221,7 @@ function getAllEvents(query) {
                 let date = new Date(event.dates.start.dateTime);
                 if(date >= now) {
                     allEvents.push(`
-                    <section class='all-event-results'>
+                    <section class="all-event-results">
                         <h3>${event.dates.start.localDate} : ${event.dates.start.localTime}</h3>
                         <h3><a href='${event.url}'>${event.name}</a></h3>
                         <p>${event._embedded.venues[0].name}</p>
@@ -235,7 +238,27 @@ function getAllEvents(query) {
 };
 
 function showHome() {
-    $('#current, #current-event, #projected-weather').removeClass('hide');
+    $('#current, #current-event, #projected-weather, #nav-container' ).removeClass('hide');
+}
+
+function showNav() {
+    $('#nav-container').fadeIn();
+}
+
+function hideNav() {
+    $('#nav-contianer').hide();
+}
+
+function navAnimate() {
+    $(".nav-links").on("click", function(e) {
+        
+        e.preventDefault();
+
+        $("body, html").animate({ 
+            scrollTop: $( $(this).attr('href') ).offset().top 
+        }, 600);
+        
+    });
 }
 
 
@@ -243,6 +266,8 @@ function watchForm() {
   $('form').submit(event => {
     event.preventDefault();
     const city = $('#js-city').val();
+    showNav();
+    navAnimate();
     hideAllEvents();
     hideEvent();
     showEvent();
@@ -258,6 +283,7 @@ function watchForm() {
 
 function watchEventClick(city) {
     $('#current-event').on('click', '.see-events', event => {
+        hideNav();
         hideEvent();
         removeWeather();
         showAllEvents();

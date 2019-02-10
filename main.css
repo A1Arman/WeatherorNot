@@ -33,6 +33,14 @@ ul {
     justify-content: space-between;
 }
 
+.nav-link {
+    text-decoration: none;
+}
+
+.nav-link:hover {
+    color: #F9BC02;
+}
+
 footer {
     padding: 1% 0;
 }
@@ -71,9 +79,9 @@ input#js-city {
 }
   
 @media screen and (min-width: 700px) {
-    section {
+    body {
         border-radius: 2.5%;
         padding: 2.5% 0;
-        margin: 1% 10%;
+        margin: 1% 17.5%;
     }
 }
