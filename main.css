@@ -24,13 +24,14 @@ body {
 }
 
 .hide {
-      display: none;
+    display: none;
 }
 
 ul {
     list-style-type: none;
     display: flex;
     justify-content: space-between;
+    padding-inline-start: 0;
 }
 
 .nav-link {
