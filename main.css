@@ -9,14 +9,15 @@
 }
 
 h1 {
+    font: 'Quando', serif;
     color: #F9BC02;
     font-size: 2.5em;
     border-bottom: 0.25px solid whitesmoke;
 }
 
 body {
-    margin: 5% 5%;
-    font-family: "Open Sans",
+    margin: 2.5% 5%;
+    font-family: "Judson",
     sans-serif; 
     font-size: 20px;
     text-align: center;
@@ -38,8 +39,8 @@ footer {
   
 section {
     border-radius: 2.5%;
-    padding: 6% 0;
-    margin: 2.5% 5%;
+    padding: 2.5% 0;
+    margin: 1% 5%;
 }
 
 .projected-weather-results, .current-event-section, 
@@ -69,6 +70,10 @@ input#js-city {
     border: 1.75px solid #FFB352;
 }
   
-@media screen and (min-width: 600px) {
-
+@media screen and (min-width: 700px) {
+    section {
+        border-radius: 2.5%;
+        padding: 2.5% 0;
+        margin: 1% 10%;
+    }
 }

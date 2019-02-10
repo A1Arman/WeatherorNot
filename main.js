@@ -101,8 +101,8 @@ function removeWeather() {
 };
 
 function showWeather() {
-    $('#current').show();
-    $('#projected-weather').show();
+    $('#current').fadeIn();
+    $('#projected-weather').fadeIn();
 };
 
 function hideEvent() {
@@ -111,7 +111,7 @@ function hideEvent() {
 }
 
 function showEvent() {
-    $('#current-event').show();
+    $('#current-event').fadeIn();
 }
 
 function displayEventResults(event) {
@@ -181,7 +181,7 @@ function hideAllEvents() {
 }
 
 function showAllEvents() {
-    $('#all-events').show();
+    $('#all-events').fadeIn();
 }
 
 function displayAllEventResults(event) {
