@@ -128,7 +128,7 @@ function displayEventResults(event) {
 function displayNoEventResults(event) {
    $('#current-event').append(`
         <section class="current-event-section">
-            <h3>${event.name}</h3>
+            <h3><a href='${event.url}'>${event.name}</a></h3>
             <h4>Sorry this event has passed</h4>
         </section>
     `)

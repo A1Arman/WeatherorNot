@@ -9,7 +9,7 @@
 }
 
 h1 {
-    color: rgb(250, 206, 12);
+    color: #F9BC02;
     font-size: 2.5em;
     border-bottom: 0.25px solid whitesmoke;
 }
@@ -44,14 +44,21 @@ section {
 
 .projected-weather-results, .current-event-section, 
 .current-temp, .all-event-results {
-    border: 0.5px solid whitesmoke;
-    box-shadow: 0.75px 0.75px;
+    border: 0.5px solid #FFB352;
+    box-shadow: 0.75px 0.75px #FFB352;
 }
 
 button, input#search-city {
     color: white;
     border-radius: 10.5%;
-    border: 1.75px solid whitesmoke;
+    border: 1.75px solid #FFB352;
+}
+
+button:hover, #search-city:hover {
+    cursor: pointer;
+}
+input::placeholder {
+    color: whitesmoke;
 }
 
 input#js-city {
@@ -59,9 +66,9 @@ input#js-city {
     color: whitesmoke;
     width: 40%;
     margin-top: 2.5%;
-    border: 1.75px solid whitesmoke;
+    border: 1.75px solid #FFB352;
 }
   
-@media screen and (min-width: 500px) {
+@media screen and (min-width: 600px) {
 
 }
