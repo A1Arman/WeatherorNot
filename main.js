@@ -40,7 +40,7 @@ function getCurrentCity(query) {
             if(response.ok) {
                 return response.json()
             }
-            throw new Error(response.statusText);
+            return Promise.reject({message: 'Weather not found'});
         })
         .then(responseJson => {
             displayCurrentResults(responseJson);
@@ -51,7 +51,6 @@ function getCurrentCity(query) {
 };
 
 function displayForecastResults(responseJson) {
-    console.log(responseJson);
     $('#js-error-message').empty();
     $('#projected-weather').append(`<h2>5 Day Forecast</h2>`);
     let projectedResults = [];
@@ -78,14 +77,13 @@ function getForecastCity(query) {
     let queryString = formatQueryParams(params)
     let url = forecastSearchURL + '?' + queryString;
 
-    console.log(url);
 
     fetch(url)
         .then(response => {
             if (response.ok) {
                 return response.json()
             }
-            throw new Error(response.statusText);
+            return Promise.reject({message: 'Not a valid City'});
         })
         .then(responseJson => displayForecastResults(responseJson))
         .catch(err => {
@@ -124,23 +122,6 @@ function displayEventResults(event) {
     `);
 };
 
-
-function displayNoEventResults(event) {
-   $('#current-event').append(`
-        <section class="current-event-section">
-            <h3><a href='${event.url}'>${event.name}</a></h3>
-            <h4>Sorry this event has passed</h4>
-        </section>
-    `)
-}
-
-function eventTitle() {
-    $('#current-event').append(`
-    <h2>Events Happening Soon</h2>
-    <button type="button" class="see-events">All Events</button>
-    `);
-}
-
 function getEvents(query) {
     const now = new Date();
     let apiKey = 'mLp0QAqdVGdXZxVAru5MAGOfSKlzsIgS';
@@ -148,7 +129,7 @@ function getEvents(query) {
         apikey: apiKey,
         city: query,
         sort: 'date,asc',
-        size: '4'
+        size: '20'
     };
     let queryString = formatQueryParams(params)
     let url = eventSearch + '?' + queryString;
@@ -158,18 +139,14 @@ function getEvents(query) {
             if (response.ok) {
                 return response.json();
             }
-            throw new Error(response.statusText);
+            return Promise.reject({message: 'Not a valid City'});
         })
         .then(responseJson => {
-            eventTitle();
             for (let i = 1; i < responseJson._embedded.events.length; i++) {
                 let event = responseJson._embedded.events[i];
                 let date = new Date(event.dates.start.dateTime);
                 if (date >= now) {
                     displayEventResults(event);
-                }
-                else {
-                    displayNoEventResults(event);
                 }
                 url = '';
             }
@@ -179,67 +156,9 @@ function getEvents(query) {
     });
 };
 
-function hideAllEvents() {
-    $('#all-event-results').remove();
-    $('#all-events').hide();
-}
-
-function showAllEvents() {
-    $('#all-events').fadeIn();
-}
-
-function displayAllEventResults(event) {
-    $('#all-events').append(`
-            <section class='all-event-results">
-                <h3>${event.dates.start.localDate} : ${event.dates.start.localTime}</h3>
-                <h3><a href='${event.url}'>${event.name}</a></h3>
-                <p>${event._embedded.venues[0].name}</p>
-            </section>
-    `);
-};
-function getAllEvents(query) {
-    let apiKey = 'mLp0QAqdVGdXZxVAru5MAGOfSKlzsIgS';
-    const params = {
-        apikey: apiKey,
-        city: query,
-        sort: 'date,asc',
-        size: '25'
-    };
-    let queryString = formatQueryParams(params)
-    let url = eventSearch + '?' + queryString;
-    const now = new Date();
-    let allEvents = [];
-    fetch(url)
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            }
-            throw new Error(response.statusText);
-        })
-        .then(responseJson => {
-            for (let i = 5; i < responseJson._embedded.events.length; i++) {
-                let event = responseJson._embedded.events[i];
-                let date = new Date(event.dates.start.dateTime);
-                if(date >= now) {
-                    allEvents.push(`
-                    <section class="all-event-results">
-                        <h3>${event.dates.start.localDate} : ${event.dates.start.localTime}</h3>
-                        <h3><a href='${event.url}'>${event.name}</a></h3>
-                        <p>${event._embedded.venues[0].name}</p>
-                    </section>
-                    `);
-                }
-            }
-            $('#all-events').append(allEvents.join(""));
-            url = '';
-        })
-        .catch(err => {
-        $('#js-error-message-all-events').text(`Something went wrong: ${err.message}`);
-    });
-};
 
 function showHome() {
-    $('#current, #current-event, #projected-weather, #nav-container' ).removeClass('hide');
+    $('#current, #current-event, #projected-weather, #nav-container, #event-title-container' ).removeClass('hide');
 }
 
 function showNav() {
@@ -269,7 +188,6 @@ function watchForm() {
     const city = $('#js-city').val();
     showNav();
     navAnimate();
-    hideAllEvents();
     hideEvent();
     showEvent();
     removeWeather();
@@ -277,19 +195,8 @@ function watchForm() {
     getEvents(city);
     getCurrentCity(city);
     getForecastCity(city);
-    watchEventClick(city);
     showHome();
   });
-}
-
-function watchEventClick(city) {
-    $('#current-event').on('click', '.see-events', event => {
-        hideNav();
-        hideEvent();
-        removeWeather();
-        showAllEvents();
-        getAllEvents(city);
-    });
 }
 
 $(watchForm);
