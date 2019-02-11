@@ -4,7 +4,18 @@ WeatherorNot allows user to enter a city and get results of current weather and 
 # Live App Link
 https://a1arman.github.io/WeatherorNot
 # ScreenShots
-![Image of WeatherorNot Current Weather](https://)
+Main Screen: 
+![Image of WeatherorNot Main](https://github.com/A1Arman/WeatherorNot/blob/master/imgs/WeatherorNot-Main.PNG)
+
+Current Weather:
+![Image of WeatherorNot Current Weather](https://github.com/A1Arman/WeatherorNot/blob/master/imgs/WeatherorNot-CurrentWeather.PNG)
+
+Current Forecast:
+![Image of WeatherorNot Events](https://github.com/A1Arman/WeatherorNot/blob/master/imgs/WeatherorNot-Forecast.PNG)
+
+Events:
+![Image of WeatherorNot Forecast Weather](https://github.com/A1Arman/WeatherorNot/blob/master/imgs/WeatherorNot-CurrentEvents.PNG)
+
 # Technology Used
 - HTML
 - CSS
