@@ -48,7 +48,7 @@ footer {
   
 section {
     border-radius: 2.5%;
-    padding: 2.5% 0;
+    padding: 0.5% 0;
     margin: 1% 5%;
 }
 
@@ -84,7 +84,7 @@ input::placeholder {
 @media screen and (min-width: 700px) {
     body {
         border-radius: 2.5%;
-        padding: 2.5% 0;
+        padding: 0.5% 0;
         margin: 1% 17.5%;
     }
 }

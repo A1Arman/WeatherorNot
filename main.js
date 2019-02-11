@@ -142,7 +142,8 @@ function getEvents(query) {
             return Promise.reject({message: 'Not a valid City'});
         })
         .then(responseJson => {
-            for (let i = 1; i < responseJson._embedded.events.length; i++) {
+            //Start at 2 because API does not get updated everyday so this filters out past events
+            for (let i = 2; i < responseJson._embedded.events.length; i++) {
                 let event = responseJson._embedded.events[i];
                 let date = new Date(event.dates.start.dateTime);
                 if (date >= now) {

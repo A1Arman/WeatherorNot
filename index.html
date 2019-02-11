@@ -14,8 +14,8 @@
             <nav class="hide" id="nav-container">
                 <ul class="links">
                     <li><a class="nav-link" href="#current">Current Weather</a></li>
-                    <li><a class="nav-link" href="#current-event">Events</a></li>
                     <li><a class="nav-link" href="#projected-weather">Forecast</a></li>
+                    <li><a class="nav-link" href="#current-event">Events</a></li>
                 </ul>
             </nav>
             <h1 id="title">WeatherorNot</h1>
@@ -29,22 +29,19 @@
                 <input type="submit" id="search-city" value="Search!">
             </form>
         </section>
-        <section>
+        <section role="error-message">
             <p id="js-error-message"></p>
             <p id="js-error-message-event"></p>
             <p id="js-error-message-forecast"></p>
         </section>
-        <section id="current" class="hide" aria-live="polite">
+        <section role="contentinfo" id="current" class="hide" aria-live="polite">
         </section>
-        <section class="hide" id="event-title-container" aria-live="polite">
+        <section role="contentinfo" id="projected-weather" class="hide" aria-live="polite"> 
+        </section>
+        <section role="Title" class="hide" id="event-title-container" aria-live="polite">
                 <h2>Events</h2>
         </section>
-        <section id="current-event" class="hide" aria-live="polite">
-        </section>
-        <section id="projected-weather" class="hide" aria-live="polite"> 
-        </section>
-        <section id="all-events" class="hide" aria-live="polite">
-            <p id="js-error-message-all-events"></p>
+        <section role="contentinfo" id="current-event" class="hide" aria-live="polite">
         </section>
     </main>
     <footer>
